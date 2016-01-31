@@ -1,17 +1,24 @@
 var bubbles = [];
+var num_bubbles = 0;
 
 function setup() {
-  createCanvas(700,500);
-  for (var i=0; i<500; i++){
-    bubbles[i] = new Bubble(random(width),random(height));
+  createCanvas(windowWidth, windowHeight);
+  for (var i=0; i<num_bubbles; i++){
+    var position = createVector(random(0,width),random(0,height));
+    var velocity = createVector(random(-5,5),random(-5,5));
+    bubbles[i] = new Bubble(position,velocity);
   }
 }
 
 function draw() {
   background(0);
-  for (var i=0; i<500; i++){
-    bubbles[i].wall();
-    bubbles[i].update();
-    bubbles[i].draw();
+  for (var i=0; i<bubbles.length; i++){
+    bubbles[i].go(2);
   }
+}
+
+function mouseClicked() {
+  var position = createVector(mouseX,mouseY);
+  var velocity = createVector(random(-5,5),random(-5,5));
+  bubbles[num_bubbles++] = new Bubble(position,velocity);
 }

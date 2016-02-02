@@ -1,5 +1,5 @@
 var bubbles = [];
-var num_bubbles = 0;
+var num_bubbles = 200;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -13,7 +13,7 @@ function setup() {
 function draw() {
   background(0);
   for (var i=0; i<bubbles.length; i++){
-    bubbles[i].go(2);
+    bubbles[i].go(2,bubbles);
   }
 }
 

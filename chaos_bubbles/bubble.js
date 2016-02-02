@@ -11,7 +11,19 @@ function Bubble(position,velocity) {
   this.d = 10;
   
   //update function that does not use acceleration
-  this.update = function(){
+  this.update = function(arrayBalls){
+    var dir = createVector(0,0);
+    for (var i=0; i<arrayBalls.length;i++){
+      var distVec = p5.Vector.sub(arrayBalls[i].pos,this.pos);
+      dir.add(distVec);
+    }
+    
+    dir.normalize();
+    dir.mult(0.5);
+    this.acc = dir;
+    
+    this.vel.add(this.acc);
+    this.vel.limit(topspeed);
     this.pos.add(this.vel);
   };
   
@@ -62,8 +74,8 @@ function Bubble(position,velocity) {
   
   //The go function takes care of everything 
   //parameter controlls edge behavior(0=none 1=bounce 2=wrap)
-  this.go = function(behavior){
-    this.update_grav();
+  this.go = function(behavior,balls){
+    this.update(balls);
     if(behavior==1){
       this.wall_bounce();
     } else if (behavior==2){

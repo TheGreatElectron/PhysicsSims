@@ -10,31 +10,28 @@ function Bubble(position,velocity) {
   //size (diameter)
   this.d = 10;
   
-  //update function that does not use acceleration
-  this.update = function(arrayBalls){
-    var dir = createVector(0,0);
-    for (var i=0; i<arrayBalls.length;i++){
-      var distVec = p5.Vector.sub(arrayBalls[i].pos,this.pos);
-      dir.add(distVec);
+  //update function
+  this.update = function(mouseGrav,arrayBubbles){
+    var force = createVector(0,0);
+    for (var i=0; i<arrayBubbles.length;i++){
+      var dir = p5.Vector.sub(arrayBubbles[i].pos,this.pos);
+      dir.normalize();
+      //dir = dir.mult(5/(arrayBubbles[i].pos.dist(this.pos)))
+      force.add(dir);
+    }
+    force.div(arrayBubbles.length);
+    
+    if(mouseGrav){
+      var mouse = createVector(mouseX,mouseY);
+      var dir = p5.Vector.sub(mouse,this.pos);
+      dir.normalize();
+      //dir = dir.mult(20/(mouse.dist(this.pos)))
+      force.add(dir);
     }
     
-    dir.normalize();
-    dir.mult(0.5);
-    this.acc = dir;
-    
-    this.vel.add(this.acc);
-    this.vel.limit(topspeed);
-    this.pos.add(this.vel);
-  };
-  
-  //update function that has "mouse gravity"
-  this.update_grav = function(){
-    var mouse = createVector(mouseX,mouseY);
-    var dir = p5.Vector.sub(mouse,this.pos);
-    
-    dir.normalize();
-    dir.mult(0.5);
-    this.acc = dir;
+    force.normalize();
+    force.mult(0.5);
+    this.acc = force;
     
     this.vel.add(this.acc);
     this.vel.limit(topspeed);
@@ -74,8 +71,8 @@ function Bubble(position,velocity) {
   
   //The go function takes care of everything 
   //parameter controlls edge behavior(0=none 1=bounce 2=wrap)
-  this.go = function(behavior,balls){
-    this.update(balls);
+  this.go = function(behavior,mouseGrav,balls){
+    this.update(mouseGrav,balls);
     if(behavior==1){
       this.wall_bounce();
     } else if (behavior==2){

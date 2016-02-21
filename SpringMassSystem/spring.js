@@ -69,8 +69,8 @@ Spring.prototype.display = function() {
 
   //update the kinematic variables
   this.displacement.x = this.equilibrium.x + ((this.lengthOfSpring - 60) * this.oscAmp * sin((this.ticker/30) * this.freq));
-  this.velocity.x =cos((this.ticker/30) * this.freq) * 60;
-  this.acceleration.x = - sin((this.ticker/30) * this.freq) * 60;
+  this.velocity.x =  this.displacement.x + cos((this.ticker/30) * this.freq) * 60;
+  this.acceleration.x =this.displacement.x - sin((this.ticker/30) * this.freq) * 60;
   pop();
 
 

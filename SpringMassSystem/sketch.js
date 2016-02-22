@@ -14,6 +14,7 @@ var vel, acc;
 
 //spring
 var spring;
+var mouseOver;
 
 
 
@@ -55,6 +56,7 @@ function draw() {
   text("Amplitude: "+(amplitude/2)+" m", 310, 305);
   
   //Draw number lines
+  push();
   fill(255);
   stroke(255);
   line(67,240,590,240);
@@ -65,6 +67,7 @@ function draw() {
     noStroke();
     text(round(i*10-5),xpos-4,260);
   }
+  pop();
   
   
   //Update Variables and reset if changed
@@ -80,9 +83,8 @@ function draw() {
   spring.display();
   
   //calculate vel and acc
-  vel = round(spring.velocity.x);
-  acc = round(spring.acceleration.x);
-  
+  vel = round(amplitude*spring.velocity.x/.02)/100;
+  acc = round(amplitude*spring.acceleration.x/.02)/100;
   //type vel and acc
   text("Velocity: "+vel+" ", 77, 20);
   text("Acceleration: "+acc+" ", 237, 20);
@@ -93,6 +95,13 @@ function updateVars(){
   var hasChanged = false;
   if (amplitude != aSlider.value() || mass != mSlider.value() || springk != kSlider.value()){
     hasChanged = true;
+  }
+  if (mouseX > (spring.displacement.x)) {
+    mouseOver = true;
+    text("mouseover",100,100);
+  } 
+  else {
+    mouseOver = false;
   }
   
   mass = mSlider.value();

@@ -1,5 +1,5 @@
 function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
-  boxsize = 40;
+  boxsize = 70;
   //no of coils (purely decorative, odd numbers work better)
   this.noOfCoils = 11;
   //how long is the equilibrium length of the spring, in px

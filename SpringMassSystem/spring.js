@@ -1,5 +1,5 @@
 
-function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
+function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_,mu_) {
   boxsize = 70;
   //no of coils (purely decorative, odd numbers work better)
   this.noOfCoils = 11;
@@ -20,6 +20,8 @@ function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
   this.oscAmp = oscAmp_;
   //calculate the frequency based on the spring constant k and the mass of the block m
   this.freq = sqrt(k_ / m_);
+  //friction coeff
+  this.mu =mu_
 
 
   //some kinematics values
@@ -78,9 +80,12 @@ Spring.prototype.display = function() {
   endShape();
 
   //update the kinematic variables
-  this.displacement.x = this.equilibrium.x + (this.oscAmp * sin((this.time) * this.freq));
-  this.velocity.x = this.oscAmp * cos((this.time) * this.freq);
-  this.acceleration.x = this.oscAmp * sin((this.time) * this.freq);
+  this.displacement.x = this.equilibrium.x + (this.oscAmp * sin(this.time * this.freq));
+  this.velocity.x = this.oscAmp * cos(this.time * this.freq);
+  this.acceleration.x = this.oscAmp * sin(this.time * this.freq);
+
+  //this.oscAmp = this.acceleration.x/sin(this.time * this.freq);
+  //this.tzero = millis/1000 + acos(this.velocity.x/this.oscAmp)/this.freq;
   pop();
 
 

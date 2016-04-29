@@ -34,17 +34,27 @@ function setup() {
   //Create sliders and buttons
   playButton = createButton('play/pause');
   playButton.position(20,25);
-  playButton.mousePressed(togglePlay);
+  playButton.mousePressed(togglePlayButton);
+  playButton.value = true;
+  
   mSlider = createSlider(1, 21, mass);
   mSlider.position(20, height-40);
+  mSlider.mousePressed(stopAn);
+  mSlider.mouseReleased(startAn);
   kSlider = createSlider(1, 11, springk);
   kSlider.position(165, height-40);
+  kSlider.mousePressed(stopAn);
+  kSlider.mouseReleased(startAn);
   aSlider = createSlider(-10, 10, amplitude);
   aSlider.position(310, height-40);
+  aSlider.mousePressed(stopAn);
+  aSlider.mouseReleased(startAn);
   muSlider = createSlider(0, 10, mu);
   muSlider.position(455, height-40);
+  muSlider.mousePressed(stopAn);
+  muSlider.mouseReleased(startAn);
   
-  spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10);
+  spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10,mu);
 
 }
 
@@ -84,7 +94,7 @@ function draw() {
   
   //Update Variables and reset if changed
   if (updateVars()){
-    spring = new Spring(createVector(20,179),springk,mass,308,amplitude/10);
+    spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10);
   }
 
   //Update spring
@@ -95,8 +105,8 @@ function draw() {
   spring.display();
   
   //calculate vel and acc
-  vel = round(amplitude*spring.velocity.x/.02)/100;
-  acc = round(amplitude*spring.acceleration.x/.02)/100;
+  vel = round(amplitude*spring.velocity.x/.01)/100;
+  acc = round(amplitude*spring.acceleration.x/.01)/100;
   //type vel and acc
   push();
   fill(0);
@@ -111,15 +121,7 @@ function updateVars(){
   if (amplitude != aSlider.value() || mass != mSlider.value() || springk != kSlider.value() || mu != muSlider.value()/10){
     hasChanged = true;
   }
-  
-  if (mouseX > (spring.displacement.x)) {
-    mouseOver = true;
-    text("mouseover",100,100);
-  } 
-  else {
-    mouseOver = false;
-  }
-  
+
   mass = mSlider.value();
   springk = kSlider.value();
   amplitude = aSlider.value();
@@ -128,7 +130,17 @@ function updateVars(){
   return hasChanged;
 }
 
-function togglePlay(){
+function togglePlayButton(){
+  playButton.value = !playButton.value;
   play = !play;
 }
+function stopAn(){
+  play = false;
+}
+function startAn() {
+  if (playButton.value){
+    play = true;  
+  }
+}
+
 

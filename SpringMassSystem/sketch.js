@@ -87,10 +87,10 @@ function draw() {
     spring = new Spring(createVector(20,179),springk,mass,308,amplitude/10);
   }
 
-  //Toggle animation
-  if (play) {
-    spring.update();
-  }
+  //Update spring
+  spring.setPlay(play);
+  spring.update();
+
   //draw spring
   spring.display();
   

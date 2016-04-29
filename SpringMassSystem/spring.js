@@ -1,3 +1,4 @@
+
 function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
   boxsize = 70;
   //no of coils (purely decorative, odd numbers work better)
@@ -9,6 +10,7 @@ function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
   //time variables 
   this.tzero = millis();
   this.time = 0;
+  this.play = true;
   //get the starting position of the spring.
   this.xcent = pos_.x;
   this.ycent = pos_.y;
@@ -29,12 +31,20 @@ function Spring(pos_, k_, m_, lengthOfSpring_, oscAmp_) {
   this.velocity = createVector(0, 0);
   //and its acceleration?
   this.acceleration = createVector(0, 0);
-
+  
+  this.setPlay = function(play) {
+    this.play=play;
+  }
 };
 
 Spring.prototype.update = function() {
   //update time
-  this.time = millis()/1000-this.tzero;
+  if (play){
+    this.time = millis()/1000-this.tzero;
+  }
+  else {
+    this.tzero = millis()/1000-this.time;
+  }
 }
 
 Spring.prototype.display = function() {

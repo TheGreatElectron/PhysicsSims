@@ -1,25 +1,21 @@
 //Buttons
 var playButton;
-//bool to toggle animation
+//Boolean to toggle animation
 var play;
 
 //Sliders
 var mSlider, kSlider, aSlider, muSlider;
 //Slider defined variables
 var mass, springk, amplitude, mu;
-//calculated variable
+//calculated variables
 var vel, acc;
 
-//spring
 var spring;
-var mouseOver;
-
-
 
 function setup() {
   //Create Canvas
   createCanvas(600, 350);
-  textSize(15)
+  textSize(15);
   noStroke();
   
   //Set default variables
@@ -27,8 +23,6 @@ function setup() {
   springk = 6;
   amplitude = 2;
   mu=0;
-  
-  //set play
   play = true;
   
   //Create sliders and buttons
@@ -54,12 +48,12 @@ function setup() {
   muSlider.mousePressed(stopAn);
   muSlider.mouseReleased(startAn);
   
+  //Create a default Spring
   spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10,mu);
 
 }
 
 function draw() {
-  //Draw Basics
   push();
   //bacground rect
   fill(130,160,50);
@@ -76,7 +70,8 @@ function draw() {
   text("Mass: "+mass+" kg", 20, 305);
   text("Spring K: "+springk+" N/m", 165, 305);
   text("Amplitude: "+(amplitude/2)+" m", 310, 305);
-  text("Mu: "+ mu +" units",455,305);
+  text("Mu: "+ mu +" ",455,305);
+  
   //Draw number lines
   push();
   fill(255);
@@ -92,9 +87,9 @@ function draw() {
   pop();
   
   
-  //Update Variables and reset if changed
+  //Update variables and reset if any changed
   if (updateVars()){
-    spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10);
+    spring = new Spring(createVector(20,height/2),springk,mass,308,amplitude/10,mu);
   }
 
   //Update spring
@@ -130,6 +125,7 @@ function updateVars(){
   return hasChanged;
 }
 
+//Functions for controlling the animation
 function togglePlayButton(){
   playButton.value = !playButton.value;
   play = !play;

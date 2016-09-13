@@ -1,3 +1,3 @@
-# P5JS_Exp
+# PhysicsSims
 
-This is where I will be putting my various practice P5.js projects.
+A collections of Physics simulations created by me for the [Science Sims @ CCNY](http://sciencesims.com/) project.

@@ -1,3 +1,5 @@
 # PhysicsSims
+This Branch is used for the live versions of the Sims.
 
-A collections of Physics simulations created by me for the [Science Sims @ CCNY](http://sciencesims.com/) project.
+Spring Mass System sim
+http://thegreatelectron.github.io/P5JS_Exp/SpringMassSystem/index.html

@@ -1,5 +1,4 @@
-# P5JS_Exp
-
+# PhysicsSims
 This Branch is used for the live versions of the Sims.
 
 Spring Mass System sim

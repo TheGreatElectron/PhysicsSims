@@ -1,6 +1,7 @@
 function CreateGraph(){
   // set the dimensions and margins of the graph
 var data = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987];
+var prediction = Array.apply(null, Array(data.length)).map(Number.prototype.valueOf,0);
 
 var margin = {top: 40, right: 40, bottom: 40, left: 40},
     width = 960 - margin.left - margin.right,
@@ -26,6 +27,10 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var valueline = d3.line()
+    .x(function(d,i) { return x(i); })
+    .y(function(d) { return y(d); });
+
 svg.append("g")
     .attr("class", "axis axis--x")
     .attr("transform", "translate(0," + height + ")")
@@ -38,6 +43,10 @@ svg.append("g")
 svg.append("path")
     .attr("class", "line")
     .attr("d", line);
+
+  svg.append("path")
+      .attr("class", "prediction")
+      .attr("d", valueline(prediction));
 
 // svg.selectAll(".dot")
 //     .data(data.filter(function(d) { return d; }))
@@ -64,9 +73,9 @@ function dragstarted() {
         y1 = d3.event.y,
         dx = x1 - x0,
         dy = y1 - y0;
-    console.log(y.invert(y1 - margin.top))
-    if (dx * dx + dy * dy > 100) data[round(x.invert(x1))]=y.invert(y1-margin.top);
+    if (dx * dx + dy * dy > 100) prediction[round(x.invert(x1-margin.left))]=y.invert(y1-margin.top);
     //else data[data.length - 1] = y1;
+    console.log(prediction)
     updateData();
   });
 }
@@ -78,9 +87,9 @@ function updateData() {
     var svg = d3.select("body").transition();
 
     // Make the changes
-        svg.select(".line")   // change the line
+        svg.select(".prediction")   // change the line
             .duration(10)
-            .attr("d", line);
+            .attr("d", valueline(prediction));
 }
 
 }

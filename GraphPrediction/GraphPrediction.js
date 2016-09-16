@@ -11,8 +11,9 @@ var x = d3.scaleLinear()
     .domain([0, data.length])
     .range([0, width]);
 
+var DataExtent = d3.extent(data)
 var y = d3.scaleLinear()
-    .domain(d3.extent(data))
+    .domain(DataExtent)
     .range([height, 0]);
 
 var line = d3.line()
@@ -73,9 +74,13 @@ function dragstarted() {
         y1 = d3.event.y,
         dx = x1 - x0,
         dy = y1 - y0;
-    if (dx * dx + dy * dy > 100) prediction[round(x.invert(x1-margin.left))]=y.invert(y1-margin.top);
+    if (dx * dx + dy * dy > 100) {
+      var i = round(x.invert(x1-margin.left)),
+          yVal = y.invert(y1-margin.top);
+      if (i >=0 && i<data.length && yVal>DataExtent[0] && yVal<DataExtent[1])
+        prediction[i]=yVal;
+    }
     //else data[data.length - 1] = y1;
-    console.log(prediction)
     updateData();
   });
 }
